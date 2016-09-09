@@ -40,7 +40,8 @@ const getWebpackConfig = (skyPagesConfig) => {
   // Merge in our defaults
   const appConfig = merge(skyPagesConfig['blackbaud-sky-pages-out-skyux2'].app, {
     template: path.resolve(__dirname, '..', 'src', 'main.ejs'),
-    base: getAppBase()
+    base: getAppBase(),
+    inject: false
   });
 
   return {
@@ -51,13 +52,38 @@ const getWebpackConfig = (skyPagesConfig) => {
     },
     output: {
       path: path.join(process.cwd(), 'dist'),
-      publicPath: appConfig.base
+      publicPath: appConfig.base,
+      // libraryTarget: 'umd'
     },
+    externals: [
+      // 'skyux'
+      // /^@angular/
+      // {
+      //   '@angular/core': true,
+      //   '@angular/common': true,
+      //   '@angular/http': true,
+      //   '@angular/router': true,
+      //   'rxjs/Subscription': true,
+      //   'rxjs/Observable': true,
+      //   'blackbaud-skyux2/dist/core': true
+      // }
+    ],
+    // externals: {
+    //   '@angular/core': '@angular/core',
+    //   '@angular/common': '@angular/common',
+    //   '@angular/http': '@angular/http',
+    //   '@angular/router': '@angular/router',
+    //   'rxjs/Subscription': 'rxjs/Subscription'
+    // },
     resolveLoader: {
       root: resolves
     },
     resolve: {
       root: resolves,
+      // alias: {
+      //   'blackbaud-skyux2': path.resolve(__dirname,
+      //     '..', 'node_modules', 'blackbaud-skyux2', 'dist', 'core.js')
+      // },
       extensions: [
         '',
         '.js',
@@ -106,9 +132,9 @@ const getWebpackConfig = (skyPagesConfig) => {
     SKY_PAGES: skyPagesConfig,
     plugins: [
       new HtmlWebpackPlugin(appConfig),
-      new webpack.optimize.CommonsChunkPlugin({
-        name: ['app', 'vendor', 'polyfills']
-      }),
+      // new webpack.optimize.CommonsChunkPlugin({
+      //   name: ['app', 'vendor', 'polyfills']
+      // }),
       new webpack.optimize.UglifyJsPlugin({
         compress: { warnings: false },
         mangle: { screw_ie8: true, keep_fnames: true }

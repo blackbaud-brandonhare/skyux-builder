@@ -14,5 +14,16 @@ It is never actually called when using the host service.
 </head>
 <body>
   <sky-pages-app>Loading...</stache-app>
+    <!--
+    <script src="https://blackbaud-sky-pages-origin.azurewebsites.net/sky-pages/skyux/polyfills.0edd432e2cc9b84e9c1a22bc2d5800d7.js"></script>
+    <script src="https://blackbaud-sky-pages-origin.azurewebsites.net/sky-pages/skyux/vendor.8711fc98f062b5f69eb5b6b03bf3e20e.js"></script>
+    <script src="https://blackbaud-sky-pages-origin.azurewebsites.net/sky-pages/skyux/core.a27980bc9efd4f30446002ac49a30226.js"></script>
+  -->
+  <script src="https://127.0.0.1:8080/releases/polyfills.js"></script>
+  <script src="https://127.0.0.1:8080/node_modules/rxjs/bundles/Rx.umd.js"></script>
+  <script src="https://127.0.0.1:8080/node_modules/@angular/core/bundles/core.umd.js"></script>
+  <script src="https://127.0.0.1:8080/releases/vendor.js"></script>
+  <script src="https://127.0.0.1:8080/releases/skyux.js"></script>
+  <script src="<%= htmlWebpackPlugin.options.base %>app.js"></script>
 </body>
 </html>
