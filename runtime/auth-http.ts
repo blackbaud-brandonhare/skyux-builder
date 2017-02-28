@@ -6,7 +6,8 @@ import {
   Request,
   RequestOptions,
   RequestOptionsArgs,
-  Response
+  Response,
+  URLSearchParams
 } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
@@ -29,11 +30,13 @@ export class SkyAuthHttp extends Http {
           // the url parameter to a Request object and the options parameter will
           // be undefined.
           authOptions = url;
+          url.url = this.addEnvId(url.url);
         } else {
-          // The url parameter can be a string in cases where reuqest() is called
+          // The url parameter can be a string in cases where request() is called
           // directly by the consumer.  Handle that case by adding the header to the
           // options parameter.
           authOptions = options || new RequestOptions();
+          url = this.addEnvId(url);
         }
 
         authOptions.headers = authOptions.headers || new Headers();
@@ -42,5 +45,17 @@ export class SkyAuthHttp extends Http {
 
         return super.request(url, authOptions);
       });
+  }
+
+  private addEnvId (url) {
+    const urlSearchParams = new URLSearchParams(window.location.search.substr(1));
+    const envid = urlSearchParams.get('envid');
+
+    if (envid) {
+      const delimeter = url.indexOf('?') === -1 ? '?' : '&';
+      url = `${url}${delimeter}envid=${envid}`;
+    }
+
+    return url;
   }
 }

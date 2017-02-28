@@ -50,6 +50,7 @@ function getWebpackConfig(skyPagesConfig) {
 
   const assetLoader = outPath('loader', 'sky-pages-asset');
   const moduleLoader = outPath('loader', 'sky-pages-module');
+  const configLoader = outPath('loader', 'sky-pages-config');
 
   const resolves = [
     process.cwd(),
@@ -125,6 +126,11 @@ function getWebpackConfig(skyPagesConfig) {
           enforce: 'pre',
           test: /sky-pages\.module\.ts$/,
           loader: moduleLoader
+        },
+        {
+          enforce: 'pre',
+          test: /sky-pages\.config\.ts$/,
+          loader: configLoader
         },
         {
           enforce: 'pre',

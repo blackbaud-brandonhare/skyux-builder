@@ -22,6 +22,13 @@ const moduleLoader = skyPagesConfigUtil.outPath('loader', 'sky-pages-module');
  */
 function getWebpackConfig(argv, skyPagesConfig) {
 
+  const skyPagesConfigServe = webpackMerge(skyPagesConfig, {
+    command: 'serve',
+    envid: argv.envid
+  });
+  const common = require('./common.webpack.config')
+    .getWebpackConfig(skyPagesConfigServe);
+
   /**
    * Opens the host service url.
    * @name WebpackPluginDone
@@ -31,17 +38,22 @@ function getWebpackConfig(argv, skyPagesConfig) {
     this.plugin('done', (stats) => {
       if (!launched) {
 
+        let appBase = skyPagesConfigUtil.getAppBase(skyPagesConfigServe);
         const localUrl = util.format(
           'https://localhost:%s%s',
           this.options.devServer.port,
           this.options.devServer.publicPath
         );
 
+        if (skyPagesConfigServe.envid) {
+          appBase += `?envid=${skyPagesConfigServe.envid}`;
+        }
+
         const hostUrl = hostUtils.resolve(
-          skyPagesConfigUtil.getAppBase(skyPagesConfig),
+          appBase,
           localUrl,
           stats.toJson().chunks,
-          skyPagesConfig
+          skyPagesConfigServe
         );
 
         logger.info('SKY UX builder is ready.');
@@ -68,12 +80,6 @@ function getWebpackConfig(argv, skyPagesConfig) {
 
     });
   }
-
-  const skyPagesConfigServe = webpackMerge(skyPagesConfig, {
-    command: 'serve'
-  });
-  const common = require('./common.webpack.config')
-    .getWebpackConfig(skyPagesConfigServe);
 
   return webpackMerge(common, {
     watch: true,

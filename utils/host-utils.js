@@ -21,9 +21,11 @@ function resolve(url, localUrl, chunks, skyPagesConfig) {
     config.externals = skyPagesConfig.app.externals;
   }
 
+  const host = skyPagesConfig.host.url;
+  // const envid = skyPagesConfig.envid ? `envid=${skyPagesConfig.envid}&` : '';
   const delimeter = url.indexOf('?') === -1 ? '?' : '&';
   const encoded = new Buffer(JSON.stringify(config)).toString('base64');
-  const resolved = `${skyPagesConfig.host.url}${url}${delimeter}local=true&_cfg=${encoded}`;
+  const resolved = `${host}${url}${delimeter}local=true&_cfg=${encoded}`;
 
   return resolved;
 }
