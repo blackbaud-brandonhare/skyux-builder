@@ -50,7 +50,11 @@ function getWebpackConfig(argv, skyPagesConfig) {
         }
 
         const hostUrl = hostUtils.resolve(
+<<<<<<< HEAD
           appBase,
+=======
+          '',
+>>>>>>> master
           localUrl,
           stats.toJson().chunks,
           skyPagesConfigServe
@@ -108,7 +112,6 @@ function getWebpackConfig(argv, skyPagesConfig) {
       ],
     },
     devServer: {
-      port: 31337,
       secure: false,
       colors: true,
       compress: true,

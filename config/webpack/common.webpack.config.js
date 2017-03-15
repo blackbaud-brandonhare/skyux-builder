@@ -1,8 +1,6 @@
 /*jslint node: true */
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
 const merge = require('merge');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -13,6 +11,7 @@ const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const skyPagesConfigUtil = require('../sky-pages/sky-pages.config');
+const aliasBuilder = require('./alias-builder');
 
 function spaPath() {
   return skyPagesConfigUtil.spaPath.apply(skyPagesConfigUtil, arguments);
@@ -23,24 +22,6 @@ function outPath() {
 }
 
 /**
- * Sets an alias to the specified module using the SPA path if the file exists in the SPA;
- * otherwise it sets the alias to the file in SKY UX Builder.
- * @name setSpaAlias
- * @param {Object} alias
- * @param {String} moduleName
- * @param {String} path
- */
-function setSpaAlias(alias, moduleName, path) {
-  let resolvedPath = spaPath(path);
-
-  if (!fs.existsSync(resolvedPath)) {
-    resolvedPath = outPath(path);
-  }
-
-  alias['sky-pages-internal/' + moduleName] = resolvedPath;
-}
-
-/**
  * Called when loaded via require.
  * @name getWebpackConfig
  * @param {SkyPagesConfig} skyPagesConfig
@@ -48,35 +29,20 @@ function setSpaAlias(alias, moduleName, path) {
  */
 function getWebpackConfig(skyPagesConfig) {
 
+<<<<<<< HEAD
   const assetLoader = outPath('loader', 'sky-pages-asset');
   const moduleLoader = outPath('loader', 'sky-pages-module');
   const configLoader = outPath('loader', 'sky-pages-config');
 
+=======
+>>>>>>> master
   const resolves = [
     process.cwd(),
     spaPath('node_modules'),
     outPath('node_modules')
   ];
 
-  let alias = {
-    'sky-pages-spa/src': spaPath('src'),
-    'sky-pages-internal/runtime': outPath('runtime')
-  };
-
-  if (skyPagesConfig && skyPagesConfig.skyux) {
-    // Order here is very important; the more specific CSS alias must go before
-    // the more generic dist one.
-    if (skyPagesConfig.skyux.cssPath) {
-      alias['@blackbaud/skyux/dist/css/sky.css'] = spaPath(skyPagesConfig.skyux.cssPath);
-    }
-
-    if (skyPagesConfig.skyux.importPath) {
-      alias['@blackbaud/skyux/dist'] = spaPath(skyPagesConfig.skyux.importPath);
-    }
-  }
-
-  setSpaAlias(alias, 'src/app/app-extras.module', path.join('src', 'app', 'app-extras.module.ts'));
-  setSpaAlias(alias, 'src/main', path.join('src', 'main.ts'));
+  let alias = aliasBuilder.buildAliasList(skyPagesConfig);
 
   const outConfigMode = skyPagesConfig && skyPagesConfig.mode;
   let appPath;
@@ -125,6 +91,7 @@ function getWebpackConfig(skyPagesConfig) {
         {
           enforce: 'pre',
           test: /sky-pages\.module\.ts$/,
+<<<<<<< HEAD
           loader: moduleLoader
         },
         {
@@ -147,6 +114,9 @@ function getWebpackConfig(skyPagesConfig) {
           query: {
             key: 'appComponentStyles'
           }
+=======
+          loader: outPath('loader', 'sky-pages-module')
+>>>>>>> master
         },
         {
           test: /\.s?css$/,

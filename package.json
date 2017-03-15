@@ -1,11 +1,16 @@
 {
   "name": "@blackbaud/skyux-builder",
-  "version": "1.0.0-beta.10",
+  "version": "1.0.0-beta.12",
   "description": "Builds the output of a SKY UX application.",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "coverage": "istanbul cover --report=html ./node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json",
     "e2e": "protractor ./config/protractor/protractor-dev.conf.js",
+=======
+    "coverage": "istanbul cover --report=html jasmine JASMINE_CONFIG_PATH=jasmine.json",
+    "e2e": "webdriver-manager update && protractor ./config/protractor/protractor-dev.conf.js",
+>>>>>>> master
     "jscs": "jscs cli config lib loader plugin src utils",
     "jshint": "jshint cli config lib loader plugin src utils",
     "lint": "npm run jshint && npm run jscs",
@@ -26,18 +31,18 @@
   },
   "homepage": "https://github.com/blackbaud/skyux-builder#readme",
   "peerDependencies": {
-    "@blackbaud/skyux": "^2.0.0-beta.2"
+    "@blackbaud/skyux": "^2.0.0-beta.10"
   },
   "dependencies": {
-    "@angular/common": "2.4.5",
-    "@angular/compiler": "2.4.5",
-    "@angular/compiler-cli": "2.4.5",
-    "@angular/core": "2.4.5",
-    "@angular/forms": "2.4.5",
-    "@angular/http": "2.4.5",
-    "@angular/platform-browser": "2.4.5",
-    "@angular/platform-browser-dynamic": "2.4.5",
-    "@angular/router": "3.4.5",
+    "@angular/common": "2.4.8",
+    "@angular/compiler": "2.4.8",
+    "@angular/compiler-cli": "2.4.8",
+    "@angular/core": "2.4.8",
+    "@angular/forms": "2.4.8",
+    "@angular/http": "2.4.8",
+    "@angular/platform-browser": "2.4.8",
+    "@angular/platform-browser-dynamic": "2.4.8",
+    "@angular/router": "3.4.8",
     "@blackbaud/auth-client": "blackbaud/auth-client",
     "@blackbaud/help-client": "blackbaud/help-client",
     "@ngtools/webpack": "1.2.1",
